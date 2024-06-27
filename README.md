@@ -5,7 +5,7 @@
 ### Clone the Repository
 First, clone the repository to your local machine:
 ```bash
-git clone https://github.com/LouisKzy/Mui-test 
+git clone https://github.com/LouisKzy/Saveurs-Saisonnieres-React-TypeScript-Material-Ui
 ```
 ### Install Dependencies
 Navigate to the project directory and install the necessary packages using your preferred package manager:
