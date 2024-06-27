@@ -1,30 +1,34 @@
-# React + TypeScript + Vite
+# React + TypeScript + Vite + Material UI Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Getting Started
 
-Currently, two official plugins are available:
+### Clone the Repository
+First, clone the repository to your local machine:
+```bash
+git clone https://github.com/LouisKzy/Mui-test 
+```
+### Install Dependencies
+Navigate to the project directory and install the necessary packages using your preferred package manager:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+Using yarn:
+```bash
+yarn intall
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Using npm:
+```bash
+npm install
+``` 
+
+## Running the Application
+To start the application, use the following commands:
+
+Using yarn:
+```bash
+yarn star
+```
+
+Using npm:
+```bash
+npm run dev
+``` 
