@@ -25,7 +25,7 @@ To start the application, use the following commands:
 
 Using yarn:
 ```bash
-yarn star
+yarn start
 ```
 
 Using npm:
