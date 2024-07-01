@@ -1,12 +1,10 @@
 import { styled } from '@mui/material/styles';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
+import { useMediaQuery, useTheme, Typography, FormGroup, FormControlLabel, Switch } from '@mui/material';
 import { useState } from 'react';
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
-  width: 62,
-  height: 34,
+  width: 42,
+  height: 24,
   padding: 7,
   '& .MuiSwitch-switchBase': {
     margin: 1,
@@ -14,7 +12,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     transform: 'translateX(6px)',
     '&.Mui-checked': {
       color: '#fff',
-      transform: 'translateX(22px)',
+      transform: 'translateX(18px)',
       '& .MuiSwitch-thumb:before': {
         backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 20 20"><path fill="${encodeURIComponent(
           '#fff',
@@ -28,8 +26,8 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
   '& .MuiSwitch-thumb': {
     backgroundColor: theme.palette.mode === 'dark' ? '#9c27b0' : '#1c1c1c',
-    width: 32,
-    height: 32,
+    width: 20,
+    height: 20,
     '&::before': {
       content: "''",
       position: 'absolute',
@@ -47,7 +45,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   '& .MuiSwitch-track': {
     opacity: 1,
     backgroundColor: theme.palette.mode === 'dark' ? '#8796A5' : '#8796A5',
-    borderRadius: 20 / 2,
+    borderRadius: 12,
   },
 }));
 
@@ -56,19 +54,21 @@ interface ToggleColorModeProps {
 }
 
 export default function ToggleColorMode({ handleThemeChange }: ToggleColorModeProps) {
-  const [themeSelector, setThemeSelector] = useState('clair');
+  const [themeSelector, setThemeSelector] = useState('sombre');
+  const theme = useTheme();
+  const belowMd = useMediaQuery(theme.breakpoints.down('md'));
 
   const handleChange = () => {
-    setThemeSelector(themeSelector === 'clair' ? 'sombre' : 'clair');
+    setThemeSelector(themeSelector === 'sombre' ? 'clair' : 'sombre');
     handleThemeChange();
   };
 
   return (
     <FormGroup>
       <FormControlLabel
-        label={`Mode ${themeSelector}`}
+        label={<Typography fontSize={belowMd ? 'small' : 'medium'}>Mode {themeSelector}</Typography>}
         labelPlacement="start"
-        sx={{ color: 'white' }}
+        sx={{ color: 'white', fontSize: belowMd ? 'small' : 'medium' }}
         control={<MaterialUISwitch sx={{ m: 1 }} onChange={handleChange} />}
       />
     </FormGroup>

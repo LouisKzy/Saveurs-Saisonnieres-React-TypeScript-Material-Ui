@@ -2,14 +2,43 @@ import { API_URL_USERS } from "../constants";
 import axios, { AxiosResponse } from "axios";
 
 
-async function RegisterFetch(email: string, password: string, firstName: string, lastName: string): Promise<any> {
+interface RegisterResponse {
+  user: {
+    id: number;
+    email: string;
+    created_at: string;
+    updated_at: string;
+    admin: boolean | null;
+  };
+  message: string;
+}
+interface User {
+  id: number;
+  email: string;
+  created_at: string;
+  updated_at: string;
+  admin: boolean | null;
+}
+
+interface LoginResponseData {
+  user: User;
+  message: string;
+}
+
+interface LoginAxiosResponse {
+  data: LoginResponseData;
+  headers: {
+    authorization: string;
+    [key: string]: string;
+  };
+}
+
+async function RegisterFetch(email: string, password: string): Promise<RegisterResponse> {
   try {
-    const response: AxiosResponse<any> = await axios.post(API_URL_USERS, {
+    const response: AxiosResponse<RegisterResponse> = await axios.post(API_URL_USERS, {
       user: {
         email: email,
         password: password,
-        first_name: firstName,
-        last_name: lastName,
       },
     });
 
@@ -21,9 +50,9 @@ async function RegisterFetch(email: string, password: string, firstName: string,
   }
 }
 
-async function LoginFetch(email: string, password: string): Promise<AxiosResponse<any>> {
+async function LoginFetch(email: string, password: string): Promise<LoginAxiosResponse> {
   try {
-    const response: AxiosResponse<any> = await axios.post(`${API_URL_USERS}/sign_in`, {
+    const response: LoginAxiosResponse = await axios.post(`${API_URL_USERS}/sign_in`, {
       user: {
         email: email,
         password: password,

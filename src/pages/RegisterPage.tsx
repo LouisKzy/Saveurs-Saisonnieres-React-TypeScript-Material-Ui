@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { useDispatch } from "react-redux";
+import { useNavigate } from 'react-router-dom';
 import {
   Avatar,
   Button,
@@ -11,69 +11,46 @@ import {
   Box,
   Grid,
   InputAdornment,
-  Typography,
-  Alert,
 } from '@mui/material';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import LoginBackground from '../assets/images/LoginBackground.jpg';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import Typography from '@mui/material/Typography';
+import Fonregister from '../assets/images/Fonregister.jpg';
+import { RegisterFetch } from '../services/authService';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { login } from "../features/authSlice";
-import { LoginFetch } from "../services/authService";
-import Cookies from "js-cookie";
 
-interface User {
-  admin: boolean | null;
-
-}
-
-interface LoginResponseData {
-  user: User;
-  message: string;
-}
-
-interface LoginResponse {
-  data: LoginResponseData;
-  headers: {
-    authorization: string;
-  };
-}
-
-function LoginPage() {
+function RegisterPage() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-  const [visibility, setVisibility] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-  const dispatch = useDispatch();
-
-  const handleVisibility = (): void => {
-    setVisibility(!visibility);
+  const confirmPasswordRef = useRef<HTMLInputElement>(null);
+  const [visibility , setVisibility] = useState<boolean>(false)
+  const [visibility2 , setVisibility2] = useState<boolean>(false)
+  const handleVisibility = () => {
+    setVisibility(!visibility)
   }
-
-  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
+  const handleVisibility2 = () => {
+    setVisibility2(!visibility2)
+  }
+  const navigate = useNavigate();
+  const handleSubmit = async (e : React.FormEvent) => {
     e.preventDefault();
+  
     const email = emailRef.current?.value ?? '';
     const password = passwordRef.current?.value ?? '';
+    const confirmPassword = confirmPasswordRef.current?.value ?? '';
+
+  
+    if (password !== confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
   
     try {
-      const response: LoginResponse = await LoginFetch(email, password);
-      const { data, headers } = response;
-      const user = data.user;
-      const token = headers.authorization;
-  
-      Cookies.set("token", token);
-      Cookies.set("useradmin", user.admin?.toString() ?? '');
-  
-      if (user.admin == true) {
-        window.location.href = "/admin/page";
-      } else {
-        window.location.href = "/products";
-      }
-      setError(null);
-      dispatch(login({ token, isAdmin: !!user.admin }));
+      const data = await RegisterFetch(email, password);
+      console.log(data);
+      navigate('/login');
     } catch (error: any) {
-      console.error("Failed to login:", error.message);
-      setError("Adresse e-mail ou mot de passe incorrect.");
+      alert('Failed to register: ' + error.message);
     }
   };
 
@@ -85,7 +62,7 @@ function LoginPage() {
         sm={4}
         md={7}
         sx={{
-          backgroundImage: `url(${LoginBackground})`,
+          backgroundImage: `url(${Fonregister})`,
           backgroundRepeat: 'no-repeat',
           backgroundColor: (t) =>
             t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -104,34 +81,35 @@ function LoginPage() {
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
+            <AppRegistrationIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Connexion
+          Inscription
           </Typography>
-          {error !== null && <Alert severity="error">{error}</Alert>}
-          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
               fullWidth
-              inputRef={emailRef}
               id="email"
-              label="Email Address"
+              inputRef={emailRef}
+              label="Email"
               name="email"
               autoComplete="email"
               autoFocus
+              
             />
             <TextField
               margin="normal"
               required
               fullWidth
+              type={visibility ? "text" : "password"}
               name="password"
               label="Password"
-              type={visibility ? "text" : "password"}
+
               id="password"
-              autoComplete="current-password"
               inputRef={passwordRef}
+              autoComplete="new-password"
               InputProps={{
                 endAdornment: visibility ? 
                   <InputAdornment position="end"><VisibilityIcon onClick={handleVisibility} /></InputAdornment> 
@@ -139,27 +117,40 @@ function LoginPage() {
                   <InputAdornment position="end"><VisibilityOffIcon onClick={handleVisibility} /></InputAdornment>
               }}
             />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="password-confirmation"
+              label="Confirmez le mot de passe"
+              type={visibility2 ? "text" : "password"}
+              id="password-confirmation"
+              inputRef={confirmPasswordRef}
+              autoComplete="current-password"
+              InputProps={{
+                endAdornment: visibility2 ? 
+                  <InputAdornment position="end"><VisibilityIcon onClick={handleVisibility2} /></InputAdornment> 
+                  : 
+                  <InputAdornment position="end"><VisibilityOffIcon onClick={handleVisibility2} /></InputAdornment>
+              }}
+            />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              label="J'ai lu et j'accepte les conditions d'utilisation"
             />
             <Button
               type="submit"
               fullWidth
               variant="contained"
+              onClick={handleSubmit}
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              S'inscrire
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
-                  Mot de passe oublié ?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="/register" variant="body2">
-                  Pas encore inscrit ?
+                <Link href="/login" variant="body2">
+                  Déja inscrit ? Se connecter
                 </Link>
               </Grid>
             </Grid>
@@ -170,4 +161,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default RegisterPage

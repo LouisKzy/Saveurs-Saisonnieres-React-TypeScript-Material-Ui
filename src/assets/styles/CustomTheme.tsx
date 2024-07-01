@@ -1,23 +1,25 @@
 import { ThemeOptions } from '@mui/material/styles';
 
 const lightColors = {
-  primary: '#5C107C',
-  secondary: '#5472AE',
+  primary: '#673ab7',
+  secondary: '#f50057',
   error: '#F44336',
   warning: '#FF9800',
   info: '#2196F3',
   success: '#4CAF50',
   background: '#FFFFFF',
+  backgroundPaper: '#e5e5e5',
 };
 
 const darkColors = {
-  primary: '#1C1C1C',
-  secondary: '#9C27B0',
-  error: '#E53935',
+  primary: '#BB86FC', 
+  secondary: '#03DAC6',
+  error: '#CF6679', 
   warning: '#FFA000',
-  info: '#1E88E5',
-  success: '#43A047',
-  background: '#1E1E1E',
+  info: '#2196F3',
+  success: '#4CAF50',
+  background: '#121212',
+  backgroundPaper: '#333333',
 };
 
 const CustomTheme = (mode: 'light' | 'dark'): ThemeOptions => {
@@ -83,8 +85,9 @@ const CustomTheme = (mode: 'light' | 'dark'): ThemeOptions => {
       },
       background: {
         default: colors.background,
-        paper: colors.background,
+        paper: colors.backgroundPaper,
       },
+      divider: '#ffffff',
     },
     components: {
       MuiCssBaseline: {
